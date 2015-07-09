@@ -2,6 +2,11 @@ package msz.javabasics;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -25,26 +30,57 @@ public class TillTest {
     @Test
     public void shouldChargeForOneApple(){
         Till till = new Till();
-        till.addCart(new Cart(Apples.one()));
+        till.addCart(new Cart().addApple(Apples.one()));
         int total = till.getTotalInCentisimal();
         assertThat(total, equalTo(PRICE_APPLE));
     }
     @Test
     public void shouldChargeForOneOrange(){
         Till till = new Till();
-        till.addCart(new Cart(Oranges.one()));
+        till.addCart(new Cart().addOrange(Oranges.one()));
+
         int total = till.getTotalInCentisimal();
         assertThat(total, equalTo(PRICE_ORANGE));
+    }
+
+    @Test
+    public void shouldChargeFor3Apples(){
+        Till till = new Till();
+        till.addCart(new Cart().addApples(Apples.many(3)));
+        int total = till.getTotalInCentisimal();
+        assertThat(total, equalTo(3 * PRICE_APPLE));
+    }
+
+    @Test
+    public void shouldChargeFor2Oranges(){
+        Till till = new Till();
+        till.addCart(new Cart().addOranges(Oranges.many(2)));
+        int total = till.getTotalInCentisimal();
+        assertThat(total, equalTo(2 * PRICE_ORANGE));
     }
 
     private static class Apples {
         public static Apple one() {
             return new Apple();
         }
+        public static Collection<Apple> many(int howMany) {
+            List<Apple> list = new ArrayList<>(howMany);
+            for(int i=0;i<howMany;i++) {
+                list.add(new Apple());
+            }
+            return list;
+        }
     }
     private static class Oranges {
         public static Orange one() {
             return new Orange();
+        }
+        public static Collection<Orange> many(int howMany) {
+            List<Orange> list = new ArrayList<>(howMany);
+            for(int i=0;i<howMany;i++) {
+                list.add(new Orange());
+            }
+            return list;
         }
     }
 }
