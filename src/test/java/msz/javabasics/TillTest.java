@@ -59,6 +59,16 @@ public class TillTest {
         assertThat(total, equalTo(2 * PRICE_ORANGE));
     }
 
+    @Test
+    public void shouldChargeFor2OrangesAnd4Apples(){
+        Till till = new Till();
+        till.addCart(new Cart().addOranges(Oranges.many(2)).addApples(Apples.many(4)));
+        int total = till.getTotalInCentisimal();
+        assertThat(total, equalTo(2 * PRICE_ORANGE + 4 * PRICE_APPLE));
+    }
+
+
+
     private static class Apples {
         public static Apple one() {
             return new Apple();
