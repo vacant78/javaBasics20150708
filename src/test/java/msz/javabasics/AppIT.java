@@ -8,6 +8,9 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 /**
  * Created by SzatanskiM on 09/07/2015.
  */
@@ -26,6 +29,12 @@ public class AppIT {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowOnInvalidInput() {
         App.main(null);
+    }
+
+    @Test
+    public void shouldPrintResultsToSystemOut() {
+        App.main(new String[]{"Apple,Orange"});
+        assertThat(outContent.toString(), equalTo("£0.85"));
     }
 
 }

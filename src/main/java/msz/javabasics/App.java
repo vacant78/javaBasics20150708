@@ -10,5 +10,9 @@ public class App {
             throw new IllegalArgumentException();
         }
 
+        Till till = new Till();
+        till.addCart(Cart.parse(args[0]));
+        System.out.print(till.getTotal());
+
     }
 }

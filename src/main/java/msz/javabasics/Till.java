@@ -19,4 +19,9 @@ public class Till {
     private int calculateCartValue() {
         return cart.getCartValue();
     }
+
+    public String getTotal() {
+        int cents=calculateCartValue();
+        return String.format("£%2.02f",cents / 100d);
+    }
 }
