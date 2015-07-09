@@ -25,15 +25,26 @@ public class TillTest {
     @Test
     public void shouldChargeForOneApple(){
         Till till = new Till();
-        till.addCart(new Cart());
+        till.addCart(new Cart(Apples.one()));
         int total = till.getTotalInCentisimal();
         assertThat(total, equalTo(PRICE_APPLE));
     }
     @Test
     public void shouldChargeForOneOrange(){
         Till till = new Till();
-        till.addCart(new Cart());
+        till.addCart(new Cart(Oranges.one()));
         int total = till.getTotalInCentisimal();
         assertThat(total, equalTo(PRICE_ORANGE));
+    }
+
+    private static class Apples {
+        public static Apple one() {
+            return new Apple();
+        }
+    }
+    private static class Oranges {
+        public static Orange one() {
+            return new Orange();
+        }
     }
 }
