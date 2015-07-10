@@ -32,8 +32,14 @@ public class AppIT {
     }
 
     @Test
-    public void shouldPrintResultsToSystemOut() {
+    public void shouldCalculateAndPrintResultsToSystemOut() {
         App.main(new String[]{"Apple,Orange"});
+        assertThat(outContent.toString(), equalTo("£0.85"));
+    }
+
+    @Test
+    public void shouldCalculateWithPromotionsAndPrintResultsToSystemOut() {
+        App.main(new String[]{"Apple,Apple,Orange","buy1get1free:Apple,get3for2:Orange"});
         assertThat(outContent.toString(), equalTo("£0.85"));
     }
 

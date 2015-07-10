@@ -8,51 +8,43 @@ import java.util.List;
  * Created by SzatanskiM on 09/07/2015.
  */
 public class Cart {
-    private static final String APPLE = "APPLE";
-    private static final String ORANGE = "ORANGE";
-    private final List<Apple> apples = new ArrayList<>();
-    private final List<Orange> oranges = new ArrayList<>();
+    private final List<Item> content = new ArrayList<>();
 
 
     public Cart() {
     }
 
 
-    public Cart addOranges(Collection<Orange> orange) {
-        oranges.addAll(orange);
+    public Cart addItem(Item apple) {
+        content.add(apple);
         return this;
     }
 
-    public Cart addApples(Collection<Apple> apples) {
-
-        this.apples.addAll(apples);
+    public Cart addItems(Collection<? extends Item> items) {
+        this.content.addAll(items);
         return  this;
-
     }
 
     public int getCartValue() {
-        return apples.stream().mapToInt(Apple::getPrice).sum()
-                + oranges.stream().mapToInt(Orange::getPrice).sum();
+        return content.stream().mapToInt(Item::getPrice).sum();
     }
 
-    public Cart addApple(Apple apple) {
-        apples.add(apple);
-        return this;
-    }
-
-    public Cart addOrange(Orange orange) {
-        oranges.add(orange);
-        return this;
+    public int getDiscount(Collection<Discount> discounts) {
+        int totalDiscount = 0;
+        for(Discount discount : discounts) {
+            totalDiscount += discount.applyPromotionDiscount(content);
+        }
+        return  totalDiscount;
     }
 
     public static Cart parse(String serializedCart) {
         Cart cart = new Cart();
 
         for(String item: serializedCart.split(",")){
-                    if(ORANGE.equalsIgnoreCase(item)) {
-                        cart.addOrange(new Orange());
-                    } else if(APPLE.equalsIgnoreCase(item)) {
-                        cart.addApple(new Apple());
+                    if(Item.ORANGE.equalsIgnoreCase(item)) {
+                        cart.addItem(new Orange());
+                    } else if(Item.APPLE.equalsIgnoreCase(item)) {
+                        cart.addItem(new Apple());
                     } else throw new IllegalArgumentException("Cannot parse item: "+item);
         }
         return cart;
